@@ -3,6 +3,8 @@ class Comment < ActiveRecord::Base
   attr_accessible :commentable, :body, :user_id
   validates_presence_of :body
   validates_presence_of :user
+  after_save :send_comment_notification
+
 
   # NOTE: install the acts_as_votable plugin if you
   # want user to vote on the quality of comments.
@@ -44,5 +46,13 @@ class Comment < ActiveRecord::Base
   # given the commentable class name and id
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
+  end
+
+  private
+
+  def send_comment_notification
+    @comment = self
+    Mailbot.send_notification_email(@comment).deliver
+
   end
 end

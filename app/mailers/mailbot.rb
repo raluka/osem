@@ -80,6 +80,11 @@ class Mailbot < ActionMailer::Base
     end
   end
 
+  def send_notification_email(comment)
+
+    mail(to: 'test@email.com', subject: 'something', body: comment.body)
+  end
+
   def build_email(conference, to, subject, body)
     mail(to: to,
          from: conference.contact.email,
