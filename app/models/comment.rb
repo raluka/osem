@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
   attr_accessible :commentable, :body, :user_id
   validates_presence_of :body
   validates_presence_of :user
-  after_save :send_comment_notification
+  after_save :send_notification
 
 
   # NOTE: install the acts_as_votable plugin if you
@@ -50,9 +50,8 @@ class Comment < ActiveRecord::Base
 
   private
 
-  def send_comment_notification
-    @comment = self
-    Mailbot.send_notification_email(@comment).deliver
-
+  def send_notification
+    conference = commentable.conference
+    Mailbot.send_notification_email(conference, self).deliver
   end
 end
