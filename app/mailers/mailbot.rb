@@ -82,7 +82,7 @@ class Mailbot < ActionMailer::Base
 
   def notification_email(conference, event, comment)
     recipients = User.joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_id = ?', conference.id).pluck(:email).uniq
-    @url = "/admin/conference/#{conference.short_title}/events/#{event.id}"
+    @conference = conference
     @comment = comment
     @event = event
     recipients.each do |recipient|
