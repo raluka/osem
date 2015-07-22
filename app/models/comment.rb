@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
   attr_accessible :commentable, :body, :user_id
   validates_presence_of :body
   validates_presence_of :user
-  after_save :send_notification
+  after_create :send_notification
 
 
   # NOTE: install the acts_as_votable plugin if you
