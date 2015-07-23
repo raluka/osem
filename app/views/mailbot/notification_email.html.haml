@@ -5,11 +5,12 @@
     %title Notification E-Mail about a comment
   %body
     .container
-      %h3 Hi #{@user.name},
-      You have a new comment for event: #{@event.title}
-      %i
-        Comment by #{@comment.user.name}
+      %h4 Hi #{@user.name},
+      You have a new comment for: #{@event.title.capitalize} of #{@conference.short_title.capitalize} conference.
+      %br
       %p
         = @comment.body
+      %i
+        Posted by #{@comment.user.name}
       %p
         To see and reply to this comment, please go to: #{link_to @event.title, admin_conference_event_url(@conference.short_title, @event)}
