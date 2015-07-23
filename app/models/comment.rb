@@ -5,7 +5,6 @@ class Comment < ActiveRecord::Base
   validates_presence_of :user
   after_create :send_notification
 
-
   # NOTE: install the acts_as_votable plugin if you
   # want user to vote on the quality of comments.
   #acts_as_votable

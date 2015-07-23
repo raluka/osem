@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{ charset: 'utf-8' }
+    %title Notification E-Mail about a comment
+  %body
+    .container
+      %h3 Hi #{@user.name},
+      You have a new comment for event: #{@event.title}
+      %i
+        Comment by #{@comment.user.name}
+      %p
+        = @comment.body
+      %p
+        To see and reply to this comment, please go to: #{link_to @event.title, admin_conference_event_url(@conference.short_title, @event)}
