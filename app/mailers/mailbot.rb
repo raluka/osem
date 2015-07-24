@@ -80,7 +80,10 @@ class Mailbot < ActionMailer::Base
     end
   end
 
-  def notification_email(conference, event, comment)
+  def notification_email(comment)
+=begin
+    event = comment.commentable
+    conference = event.conference
     recipients = User.joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_id = ?', conference.id).select(:name, :email).distinct
     @conference = conference
     @comment = comment
@@ -92,6 +95,15 @@ class Mailbot < ActionMailer::Base
            from: conference.contact.email,
            subject: "New comment posted for #{@event.title}")
     end
+=end
+    recipients = User.joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_id = ?', conference.id).select(:name, :email).distinct
+    recipients.each do |user|
+      build_email(conference,
+                  user.email,
+                  conference.email_settings.comments_updates_subject,
+                  conference.email_settings.generate_email_on_comments_updates(conference, user, conference.email_settings.comments_dates_updates_template))
+    end
+
   end
 
   def build_email(conference, to, subject, body)

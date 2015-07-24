@@ -12,8 +12,9 @@ class EmailSettings < ActiveRecord::Base
                   :call_for_papers_schedule_public_subject, :call_for_papers_dates_updates_subject,
                   :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template
 
-  def get_values(conference, user, event = nil)
+  def get_values(conference, user, event = nil, comment = nil)
     h = {
+
       'email' => user.email,
       'name' => user.name,
       'conference' => conference.title,
@@ -49,10 +50,15 @@ class EmailSettings < ActiveRecord::Base
       h['registration_end_date'] = conference.registration_period.end_date
     end
 
-    if !event.nil?
+    if event
       h['eventtitle'] = event.title
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_index_url(
                            conference.short_title, host: CONFIG['url_for_emails'])
+    end
+    if comment
+      h['comment_body'] = comment.body
+      h['comment_reply'] = Rails.application.routes.url_helpers.admin_conference_event_url(
+                           conference.short_title, event, host: CONFIG['url_for_emails'])
     end
     h
   end
