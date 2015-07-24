@@ -73,6 +73,15 @@ class EmailSettings < ActiveRecord::Base
     parse_template(conf_update_template, values)
   end
 
+  def generate_email_on_comment_update(conference, event, comment, user, comment_template)
+    values = get_values(conference, event, comment, user)
+    parse_template(comment_template, values)
+
+  end
+
+
+  private
+
   def parse_template(text, values)
     values.each do |key, value|
       if value.kind_of?(Date)
