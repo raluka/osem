@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415121038) do
+ActiveRecord::Schema.define(version: 20150724182915) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(version: 20150415121038) do
     t.string   "call_for_papers_dates_updates_subject"
     t.text     "call_for_papers_schedule_public_template"
     t.text     "call_for_papers_dates_updates_template"
+    t.string   "comment_subject"
+    t.text     "comment_template"
   end
 
   create_table "event_types", force: true do |t|

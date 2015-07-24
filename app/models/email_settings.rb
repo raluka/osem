@@ -10,11 +10,11 @@ class EmailSettings < ActiveRecord::Base
                   :send_on_venue_update, :venue_update_subject, :venue_update_template,
                   :send_on_call_for_papers_dates_updates, :send_on_call_for_papers_schedule_public,
                   :call_for_papers_schedule_public_subject, :call_for_papers_dates_updates_subject,
-                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template
+                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template, :comment_subject,
+                  :comment_template
 
   def get_values(conference, user, event = nil, comment = nil)
     h = {
-
       'email' => user.email,
       'name' => user.name,
       'conference' => conference.title,
@@ -57,6 +57,7 @@ class EmailSettings < ActiveRecord::Base
     end
     if comment
       h['comment_body'] = comment.body
+      h['comment_user'] = comment.user.name
       h['comment_reply'] = Rails.application.routes.url_helpers.admin_conference_event_url(
                            conference.short_title, event, host: CONFIG['url_for_emails'])
     end
@@ -74,11 +75,13 @@ class EmailSettings < ActiveRecord::Base
   end
 
   def generate_email_on_comment_update(conference, event, comment, user, comment_template)
-    values = get_values(conference, event, comment, user)
+    values = get_values(conference, user, event, comment)
     parse_template(comment_template, values)
-
   end
 
+  def generate_subject_for_comment_update(template, event)
+    parse_template(template, eventtitle: event.title)
+  end
 
   private
 

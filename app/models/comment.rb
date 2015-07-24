@@ -50,6 +50,6 @@ class Comment < ActiveRecord::Base
   private
 
   def send_notification
-    Mailbot.send_notification_email_for_comment(self).deliver
+    Mailbot.delay.send_notification_email_for_comment(self)
   end
 end
