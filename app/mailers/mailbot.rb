@@ -83,7 +83,7 @@ class Mailbot < ActionMailer::Base
   def send_notification_email_for_comment(comment)
     event = comment.commentable
     conference = event.conference
-    recipients = User.joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_id = ?', conference.id).select(:name, :email).distinct
+    recipients = User.comment_notifiable(conference) # with scope
     recipients.each do |user|
       build_email(conference,
                   user.email,
