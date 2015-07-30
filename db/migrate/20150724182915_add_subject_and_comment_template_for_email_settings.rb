@@ -14,5 +14,11 @@ Best wishes,
 )
     add_column :email_settings, :comment_subject, :string, default: comment_subject
     add_column :email_settings, :comment_template, :text, default: comment_template_text
+
+    EmailSettings.all.each do |email_setting|
+      email_setting.comment_subject = comment_subject
+      email_setting.comment_template = comment_template_text
+      email_setting.save!
+    end
   end
 end
