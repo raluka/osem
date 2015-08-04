@@ -87,8 +87,8 @@ class Mailbot < ActionMailer::Base
     recipients.each do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.generate_subject_for_comment_update(conference.email_settings.comment_subject, event),
-                  conference.email_settings.generate_email_on_comment_update(conference, event, comment, user, conference.email_settings.comment_template))
+                  "New comment has been posted for #{event.title}",
+                  conference.email_settings.generate_email_on_comment_create(conference, event, comment, user))
     end
   end
 

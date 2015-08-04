@@ -74,13 +74,10 @@ class EmailSettings < ActiveRecord::Base
     parse_template(conf_update_template, values)
   end
 
-  def generate_email_on_comment_update(conference, event, comment, user, comment_template)
+  def generate_email_on_comment_create(conference, event, comment, user)
     values = get_values(conference, user, event, comment)
+    comment_template = File.read("#{Rails.root.to_s}/app/views/admin/emails/comment_template.text.erb")
     parse_template(comment_template, values)
-  end
-
-  def generate_subject_for_comment_update(template, event)
-    parse_template(template, eventtitle: event.title)
   end
 
   private
