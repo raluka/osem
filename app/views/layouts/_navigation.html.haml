@@ -14,7 +14,6 @@
           = content_for :splash_nav
       -if user_signed_in?
         .btn-group.pull-right
-          = link_to 'Notifications', root_path, class: 'btn btn-danger'
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "current-user-detail"}
@@ -26,6 +25,16 @@
                 %b.caret
               %ul.dropdown-menu
                 = render 'layouts/user_menu'
+          %ul.nav.navbar-nav.navbar-right
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments"}
+                - if unread_comments
+                  Notifications (#{unread_comments.length})
+                  %b.caret
+                  %ul.dropdown-menu
+                    = render partial: 'layouts/unread_comment', collection: unread_comments
+                -else
+                  No Notifications
       - else
         %ul.nav.navbar-nav.navbar-right
           - if CONFIG['authentication']['ichain']['enabled']
