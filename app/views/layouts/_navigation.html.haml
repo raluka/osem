@@ -32,7 +32,11 @@
                   Notifications (#{unread_comments.length})
                   %b.caret
                   %ul.dropdown-menu
+                    %dropdown-header.h5 New comments for:
                     = render partial: 'layouts/unread_comment', collection: unread_comments
+                    %li.divider
+                    %li= link_to 'See comments', root_path
+
                 -else
                   No Notifications
       - else
