@@ -1,0 +1,25 @@
+%h1 Title here
+.row
+  .col-md-8
+    %ul.nav.nav-tabs#commentsTable
+      %li.active
+        %a{:href=>"#unread_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-user
+          Unread comments
+      %li
+        %a{:href=>"#all_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-check-square
+          Comments
+      %li
+        %a{:href=>"#posted_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-file-text
+          Posted Comments
+    .tab-content
+      .tab-pane.active#unread_comments
+      .tab-pane#all_comments
+      .tab-pane#posted_comments
+
+%container
+  %ul
+    - @comments.each do |comment|
+      %li= link_to "#{comment.body}", admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable_id)

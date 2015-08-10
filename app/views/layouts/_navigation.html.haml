@@ -25,20 +25,19 @@
                 %b.caret
               %ul.dropdown-menu
                 = render 'layouts/user_menu'
-          %ul.nav.navbar-nav.navbar-right
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments"}
-                - if unread_comments
-                  Notifications (#{unread_comments.length})
-                  %b.caret
-                  %ul.dropdown-menu
-                    %dropdown-header.h5 New comments for:
-                    = render partial: 'layouts/unread_comment', collection: unread_comments
-                    %li.divider
-                    %li= link_to 'See comments', root_path
-
-                -else
-                  No Notifications
+          - if can? :manage, Conference
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments"}
+                  - if unread_comments
+                    Notifications (#{unread_comments.length})
+                    %b.caret
+                    %ul.dropdown-menu
+                      = render partial: 'layouts/unread_comment', collection: unread_comments
+                      %li.divider
+                      %li= link_to 'See comments', admin_comments_path
+                  -else
+                    No Notifications
       - else
         %ul.nav.navbar-nav.navbar-right
           - if CONFIG['authentication']['ichain']['enabled']
