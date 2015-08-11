@@ -85,10 +85,15 @@ class Mailbot < ActionMailer::Base
     conference = event.conference
     recipients = User.comment_notifiable(conference) # with scope
     recipients.each do |user|
-      build_email(conference,
-                  user.email,
-                  "New comment has been posted for #{event.title}",
-                  conference.email_settings.generate_email_on_comment_create(conference, event, comment, user))
+      mail(to: user.email,
+           from: conference.contact.email,
+           reply_to: conference.contact.email,
+           subject: "New comment has been posted for #{event.title}") do |format|
+        format.text do
+          template = render 'admin/emails/comment_template'
+          conference.email_settings.generate_email_on_comment_create(conference, event, comment, user, template)
+        end
+      end
     end
   end
 
