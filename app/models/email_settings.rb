@@ -13,7 +13,7 @@ class EmailSettings < ActiveRecord::Base
                   :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template, :comment_subject,
                   :comment_template
 
-  def get_values(conference, user, event = nil, comment = nil)
+  def get_values(conference, user, event = nil)
     h = {
       'email' => user.email,
       'name' => user.name,
@@ -55,12 +55,6 @@ class EmailSettings < ActiveRecord::Base
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_index_url(
                            conference.short_title, host: CONFIG['url_for_emails'])
     end
-    if comment
-      h['comment_body'] = comment.body
-      h['comment_user'] = comment.user.name
-      h['comment_reply'] = Rails.application.routes.url_helpers.admin_conference_event_url(
-                           conference.short_title, event, host: CONFIG['url_for_emails'])
-    end
     h
   end
 
@@ -72,11 +66,6 @@ class EmailSettings < ActiveRecord::Base
   def generate_email_on_conf_updates(conference, user, conf_update_template)
     values = get_values(conference, user)
     parse_template(conf_update_template, values)
-  end
-
-  def generate_email_on_comment_create(conference, event, comment, user, template)
-    values = get_values(conference, user, event, comment)
-    parse_template(template, values)
   end
 
   private
