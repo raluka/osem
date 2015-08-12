@@ -1,25 +1,71 @@
-%h1 Title here
+%h1 Comments
 .row
-  .col-md-8
+  .col-lg-12
     %ul.nav.nav-tabs#commentsTable
       %li.active
         %a{:href=>"#unread_comments", "data-toggle"=>"tab"}
-          %span.fa.fa-user
+          %span.fa.fa-comment
           Unread comments
       %li
         %a{:href=>"#all_comments", "data-toggle"=>"tab"}
-          %span.fa.fa-check-square
+          %span.fa.fa-comments-o
           Comments
       %li
         %a{:href=>"#posted_comments", "data-toggle"=>"tab"}
-          %span.fa.fa-file-text
+          %span.fa.fa-pencil
           Posted Comments
     .tab-content
       .tab-pane.active#unread_comments
-      .tab-pane#all_comments
-      .tab-pane#posted_comments
+        - if @unread_comments && !@unread_comments.empty?
+          .table-responsive
+            %table.table
+              %thead
+                %tr
+                  %th Submitter
+                  %th Comment
+                  %th Event
+                  %th Conference
+                  %th Posted At
+                - @comments.each do |comment|
+                  %tbody
+                    %tr
+                      - if comment.user
+                        %td= comment.user.name
+                      - else
+                        %td Unknown Submitter
+                      %td= link_to h(truncate(comment.body, :length => 80)), admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable_id)
+                      %td= link_to comment.commentable.title, admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable)
+                      %td= link_to comment.commentable.conference.title, admin_conference_path(comment.commentable.conference.short_title)
+                      %td= comment.created_at
+        - else
+          %h5.text-warning.text-center
+            No submissions!
 
-%container
-  %ul
-    - @comments.each do |comment|
-      %li= link_to "#{comment.body}", admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable_id)
+      .tab-pane#all_comments
+        %ul
+        - if @comments && !@comments.empty?
+          .table-responsive
+            %table.table
+              %thead
+                %tr
+                  %th Submitter
+                  %th Comment
+                  %th Event
+                  %th Conference
+                  %th Posted At
+                - @comments.each do |comment|
+                  %tbody
+                    %tr
+                      - if comment.user
+                        %td= comment.user.name
+                      - else
+                        %td Unknown Submitter
+                      %td= link_to h(truncate(comment.body, :length => 80)), admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable_id)
+                      %td= link_to comment.commentable.title, admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable)
+                      %td= link_to comment.commentable.conference.title, admin_conference_path(comment.commentable.conference.short_title)
+                      %td= comment.created_at
+        - else
+          %h5.text-warning.text-center
+            No submissions!
+
+      .tab-pane#posted_comments

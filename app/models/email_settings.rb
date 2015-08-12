@@ -10,8 +10,7 @@ class EmailSettings < ActiveRecord::Base
                   :send_on_venue_update, :venue_update_subject, :venue_update_template,
                   :send_on_call_for_papers_dates_updates, :send_on_call_for_papers_schedule_public,
                   :call_for_papers_schedule_public_subject, :call_for_papers_dates_updates_subject,
-                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template, :comment_subject,
-                  :comment_template
+                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template
 
   def get_values(conference, user, event = nil)
     h = {

@@ -29,11 +29,12 @@
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments"}
-                  - if unread_comments
-                    Notifications (#{unread_comments.length})
+                  - if unread_comments_limited
+                    Notifications (#{unread_comments_limited.length})
                     %b.caret
                     %ul.dropdown-menu
-                      = render partial: 'layouts/unread_comment', collection: unread_comments
+                      - unread_comments_limited.each do |unread_comment|
+                        %li= link_to("New comment for: #{unread_comment.commentable.title}", admin_conference_event_path(unread_comment.commentable.conference.short_title, unread_comment.commentable_id))
                       %li.divider
                       %li= link_to 'See comments', admin_comments_path
                   -else
