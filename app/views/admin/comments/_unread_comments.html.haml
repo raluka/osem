@@ -1,0 +1,25 @@
+%ul
+  - if unread_comments && !unread_comments.empty?
+    .table-responsive
+      %table.table
+        %thead
+          %tr
+            %th Submitter
+            %th Comment
+            %th Event
+            %th Conference
+            %th Posted At
+          - unread_comments.each do |unread_comment|
+            %tbody
+              %tr
+                - if unread_comment.user
+                  %td= unread_comment.user.name
+                - else
+                  %td Unknown Submitter
+                %td= link_to h(truncate(unread_comment.body, :length => 150)), admin_conference_event_path(unread_comment.commentable.conference.short_title, unread_comment.commentable_id)
+                %td= link_to unread_comment.commentable.title, admin_conference_event_path(unread_comment.commentable.conference.short_title, unread_comment.commentable)
+                %td= link_to unread_comment.commentable.conference.title, admin_conference_path(unread_comment.commentable.conference.short_title)
+                %td= unread_comment.created_at
+  - else
+    %h5.text-warning.text-center
+      No submissions!

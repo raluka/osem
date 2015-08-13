@@ -278,4 +278,10 @@ module ApplicationHelper
       new_user_registration_path
     end
   end
+
+  def unread_notifications(user)
+    if can? :manage, Comment
+      @unread_notifications = Comment.where(created_at: (user.last_sign_in_at..Time.now)).order(created_at: :desc)
+    end
+  end
 end

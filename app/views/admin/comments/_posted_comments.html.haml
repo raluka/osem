@@ -1,0 +1,20 @@
+%ul
+  - if posted_comments && !posted_comments.empty?
+    .table-responsive
+      %table.table
+        %thead
+          %tr
+            %th Comment
+            %th Event
+            %th Conference
+            %th Posted At
+          - posted_comments.each do |comment|
+            %tbody
+              %tr
+                %td= link_to h(truncate(comment.body, :length => 80)), admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable_id)
+                %td= link_to comment.commentable.title, admin_conference_event_path(comment.commentable.conference.short_title, comment.commentable)
+                %td= link_to comment.commentable.conference.title, admin_conference_path(comment.commentable.conference.short_title)
+                %td= comment.created_at
+  - else
+    %h5.text-warning.text-center
+      No submissions!

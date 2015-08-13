@@ -15,7 +15,7 @@ Osem::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :people
-    resources :comments, only: [:index]
+    resources :comments
     resources :conference do
       member do
         get :roles
