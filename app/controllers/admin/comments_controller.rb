@@ -3,19 +3,32 @@ module Admin
     load_and_authorize_resource
 
     def index
-      @comments = Comment.all.order(:commentable_id, created_at: :desc)
+      @comments = Comment.all
       @unread_comments = unread
       @posted_comments = posted
     end
 
-    private
+    def comments_list(event)
+      Comment.find_comments_for_commentable(Event, event.id)
+    end
+
 
     def unread
-       Comment.where(created_at: (current_user.last_sign_in_at..Time.now)).order(:commentable_id, created_at: :desc)
+       Comment.where(created_at: (current_user.last_sign_in_at..Time.now))
     end
 
     def posted
-      Comment.where(user_id: current_user.id).order(:commentable_id, created_at: :desc)
+      Comment.where(user_id: current_user.id)
+    end
+
+    protected
+    def find_commentable
+      params.each do |name, value|
+        if name =~ /(.+)_id$/
+          return $1.classify.constantize.find(value)
+        end
+      end
+      nil
     end
   end
 end
