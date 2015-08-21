@@ -15,6 +15,7 @@ Osem::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :people
+    resources :comments
     resources :conference do
       member do
         get :roles
@@ -35,8 +36,8 @@ Osem::Application.routes.draw do
 
       resources :registrations, except: [:create, :new] do
         member do
-          patch :present
-          patch :absent
+          patch :toggle_attendance
+
         end
       end
 
