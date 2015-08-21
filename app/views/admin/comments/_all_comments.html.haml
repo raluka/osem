@@ -1,14 +1,16 @@
-.panel.panel-warning.well
-  -Event.order(:title).all.each do |event|
-    - if Comment.find_comments_for_commentable('Event', event.id).count > 0
-      %panel.panel-header
-        %h3.panel-title
-        = link_to event.title, admin_conference_event_path(event.conference.short_title, event)
-      -Comment.find_comments_for_commentable('Event', event.id).each do |comment|
-        %panel.panel-body.well-sm
-          %before
-          %ul.list-unstyled
-            %li= comment.body
-            %ul.list-inline
-              %li Posted by: #{comment.user.name}
-              %li Created at: #{comment.created_at}
+.panel.well
+  -@ordered_events.each do |event|
+    - if event.comment_threads.count > 0
+      %panel
+        %panel.panel-header
+          %h4.title
+            = link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+          %hr
+        -event.comment_threads.order(created_at: :desc).each do |comment|
+          %panel-body
+            %ul.list-unstyled
+              %li= comment.body
+              %ul.list-inline
+                %li Posted by: #{comment.user.name}
+                %li Created at: #{comment.created_at}
+        %hr
