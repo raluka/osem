@@ -8,7 +8,10 @@ Osem::Application.configure do
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  # The configuration option `config.serve_static_assets` has been renamed to `config.serve_static_files` to clarify its
+  # role (it merely enables serving everything in the `public` folder and is unrelated to the asset pipeline).
+  # The `serve_static_assets` alias will be removed in Rails 5.0
+  config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
 
   # Do not eager load code on boot.
@@ -34,6 +37,9 @@ Osem::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Rails 4.2 introduced a new configuration option active_support.test_order for explicitly specifying test ordering.
+  config.active_support.test_order = :sorted # or `:random` if you prefer
 
   # Set the detault url for action mailer
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
