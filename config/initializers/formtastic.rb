@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+# Upgrading your initializer to support namespaced custom inputs (and actions)
+Formtastic::FormBuilder.action_class_finder = Formtastic::ActionClassFinder
+Formtastic::FormBuilder.input_class_finder = Formtastic::InputClassFinder
+
 # Set the default text field size when input is a string. Default is nil.
 # Formtastic::FormBuilder.default_text_field_size = 50
 

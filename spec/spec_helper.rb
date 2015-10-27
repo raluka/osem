@@ -1,6 +1,9 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 
+# To fix deprecation warnings https://github.com/airblade/paper_trail/issues/416
+require 'paper_trail/frameworks/rspec'
+
 if ENV['TRAVIS']
   require 'coveralls'
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
