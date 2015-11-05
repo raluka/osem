@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 
 # as web framework
-gem 'rails', '~> 4.1'
+gem 'rails', '~> 4.2', '>= 4.2.4'
+
+# in Rails 4.2 respond_with and the class-level respond_to methods have been extracted to the
+# responders gem.
+gem 'responders', '~> 2.0'
 
 # as the database for Active Record
 gem 'mysql2'
@@ -48,7 +52,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
-gem 'formtastic', '~> 2.3.0.rc3'
+gem 'formtastic', '~> 3.1', '>= 3.1.3'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
@@ -151,7 +155,7 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   # Set of rails validations matchers to describe models
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda'
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
